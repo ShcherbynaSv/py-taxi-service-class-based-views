@@ -15,10 +15,12 @@ def index(request):
 
     return render(request, "taxi/index.html", context=context)
 
+
 class ManufacturerListView(generic.ListView):
     model = Manufacturer
     queryset = Manufacturer.objects.all().order_by("name")
     paginate_by = 5
+
 
 class CarListView(generic.ListView):
     model = Car
@@ -27,15 +29,18 @@ class CarListView(generic.ListView):
     def get_queryset(self):
         return Car.objects.select_related("manufacturer").all()
 
+
 class CarDetailView(generic.DetailView):
     model = Car
 
     def get_queryset(self):
         return Car.objects.prefetch_related("drivers").all()
 
+
 class DriverListView(generic.ListView):
     model = Driver
     paginate_by = 5
+
 
 class DriverDetailView(generic.DetailView):
     model = Driver
